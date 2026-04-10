@@ -33,9 +33,9 @@ class StellarBurgersAPI:
 
     def delete_user(self, email):
         url = ENDPOINTS["user"]
-        refresh_token = self.tokens[email]['refreshToken']
+        accessToken = self.tokens[email]['accessToken']
         headers = {
-            "Authorization": f"Bearer {refresh_token}"
+            "Authorization": accessToken
         }
         return requests.delete(url, headers=headers)
 
@@ -53,12 +53,9 @@ class StellarBurgersAPI:
 
     def teardown(self):
         for email in self.users_to_delete:
-            try:
-                response = self.delete_user(email)
-                assert response.status_code == 200
-                self.logout(self.tokens[email]['refreshToken'])
-            except Exception as e:
-                print(f"Ошибка при удалении пользователя {email}: {str(e)}")
+            response = self.delete_user(email)
+            assert response.status_code == 202, \
+                f"Ожидался код 202, получен {response.status_code}. Ответ: {response.text}"
 
     def generate_random_email(self):
         letters = string.ascii_lowercase
