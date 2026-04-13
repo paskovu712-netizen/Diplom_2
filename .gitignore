@@ -1,4 +1,6 @@
 __pycache__
 .pytest_cache
 .venv
-*/__pycache__
+data/__pycache__
+helpers/__pycache__
+tests/__pycache__
