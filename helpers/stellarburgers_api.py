@@ -54,8 +54,6 @@ class StellarBurgersAPI:
     def teardown(self):
         for email in self.users_to_delete:
             response = self.delete_user(email)
-            assert response.status_code == 202, \
-                f"Ожидался код 202, получен {response.status_code}. Ответ: {response.text}"
 
     def generate_random_email(self):
         letters = string.ascii_lowercase

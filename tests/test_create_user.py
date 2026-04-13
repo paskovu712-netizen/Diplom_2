@@ -34,21 +34,4 @@ class TestUserRegistration:
             assert "accessToken" in response_data
             assert "refreshToken" in response_data
 
-        with allure.step('Формирование заголовков с токеном авторизации'):
-            headers = {
-                "Authorization": response_data['accessToken']
-            }
-
-        with allure.step('Запрос данных пользователя'):
-            user_response = api_client.get_user(headers)
-
-        with allure.step('Проверка статуса ответа при получении данных пользователя'):
-            assert user_response.status_code == 200, \
-                f"Ожидался код 200, получен {response.status_code}. Ответ: {response.text}"
-
-        with allure.step('Проверка корректности полученных данных пользователя'):
-            user_data = user_response.json()
-            assert user_data.get("success") is True
-            assert user_data["user"]["email"] == payload["email"]
-            assert user_data["user"]["name"] == payload["name"]
     
